@@ -1,7 +1,11 @@
 import express, {Request, Response} from 'express';
+import {TodoController} from './modules/todos/todos.controller';
 
 export class Server {
-    constructor(private app:express.Application = express()) {
+    constructor(
+        private app:express.Application = express(),
+        private todoController:TodoController = new TodoController()
+    ) {
         this.configuration();
         this.routes();
     }
@@ -11,8 +15,9 @@ export class Server {
     }
 
     public routes() {
+        this.app.use('/api/todos/', this.todoController.router)
         this.app.get('/', (req:Request, res:Response) => {
-            res.send('Node Express Typescript TypeORM Starter')
+            res.send('Node Express Typescript TypeORM Starter');
         })
     }
 

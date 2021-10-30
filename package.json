@@ -17,6 +17,8 @@
   },
   "scripts": {
     "tsc": "tsc",
-    "dev": "npm run tsc && nodemon build/server.js"
+    "watch": "tsc --watch",
+    "dev": "npm run tsc && nodemon build/server.js",
+    "dev2": "concurrently \"npm run watch\" \"npm run dev\""
   }
 }
