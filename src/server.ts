@@ -32,11 +32,11 @@ export class Server {
     public initializingRoutes() {
         this.app.use('/api/todos/', this.todoController.router)
 
-        this.app.get('/', (req:Request, res:Response) => {
+        this.app.get('/', (_req:Request, res:Response) => {
             res.send('Node Express Typescript TypeORM Starter');
         })
 
-        this.app.use((err:Error, req:Request, res:Response, next:NextFunction) => {
+        this.app.use((err:Error, _req:Request, res:Response, _next:NextFunction) => {
             res.status(500).json({message: err.message});
         });
 

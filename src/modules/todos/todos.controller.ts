@@ -22,8 +22,14 @@ export class TodoController {
 
     public create = async (req:Request, res:Response) => {
         const payload = req.body;
-        const data = await this.service.create(payload);
-        return res.json(data);
+
+        try {
+            const data = await this.service.create(payload);
+            return res.json(data);
+        } catch(err) {
+            console.log('#####');
+            throw new Error('Error when creating the Todo')
+        }
     }
 
     public update = async (req:Request, res:Response) => {
