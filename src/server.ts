@@ -1,4 +1,4 @@
-import express, {Request, Response} from 'express';
+import express, {Request, Response, NextFunction} from 'express';
 import {createConnection} from 'typeorm';
 import {TodoController} from './modules/todos/todos.controller';
 import config from './ormconfig';
@@ -31,9 +31,15 @@ export class Server {
 
     public initializingRoutes() {
         this.app.use('/api/todos/', this.todoController.router)
+
         this.app.get('/', (req:Request, res:Response) => {
             res.send('Node Express Typescript TypeORM Starter');
         })
+
+        this.app.use((err:Error, req:Request, res:Response, next:NextFunction) => {
+            res.status(500).json({message: err.message});
+        });
+
     }
 
     public start() {
