@@ -1,20 +1,34 @@
 import express, {Request, Response} from 'express';
+import {createConnection} from 'typeorm';
 import {TodoController} from './modules/todos/todos.controller';
+import config from './ormconfig';
 
 export class Server {
+    private todoController:TodoController;
+
     constructor(
         private app:express.Application = express(),
-        private todoController:TodoController = new TodoController()
     ) {
         this.configuration();
-        this.routes();
     }
 
     public configuration() {
         this.app.set('port', process.env.PORT || 5000)
     }
 
-    public routes() {
+    public async initializeDatabase() {
+        try {
+            await createConnection(config);
+        } catch(err) {
+            throw err;
+        }
+    }
+
+    public registeringRoutes() {
+        this.todoController = new TodoController();
+    }
+
+    public initializingRoutes() {
         this.app.use('/api/todos/', this.todoController.router)
         this.app.get('/', (req:Request, res:Response) => {
             res.send('Node Express Typescript TypeORM Starter');
@@ -29,4 +43,8 @@ export class Server {
 }
 
 export const server = new Server();
-server.start();
+server.initializeDatabase().then(() => {
+    server.registeringRoutes();
+    server.initializingRoutes();
+    server.start();
+})

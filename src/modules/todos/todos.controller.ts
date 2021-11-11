@@ -36,6 +36,4 @@ export class TodoController {
         this.router.put('/:id', this.update);
         this.router.delete('/:id', this.delete);
     }
-
-
 }
