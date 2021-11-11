@@ -23,11 +23,11 @@
   "scripts": {
     "tsc": "tsc",
     "dev": "ts-node-dev --respawn ./src/server.ts",
-    "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run --config ./src/ormconfig.ts",
-    "migration:run:dev": "ts-node ./node_modules/typeorm/cli.js migration:run --config ./src/ormconfig.ts",
-    "migration:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert --config ./src/ormconfig.ts",
-    "migration:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate --pretty --config ./src/ormconfig.ts -n ",
-    "migration:create": "ts-node ./node_modules/.bin/typeorm migration:create --config ./src/ormconfig.ts -n "
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config src/ormconfig.ts",
+    "migration:run": "yarn typeorm migration:run -c todo_connection",
+    "migration:create": "yarn typeorm migration:create -c todo_connection -d src/migrations -n",
+    "migration:generate": "yarn typeorm migration:generate -c todo_connection -d src/migrations -n",
+    "migration:revert": "yarn typeorm migration:revert -c todo_connection"
   },
   "rootDir": "src"
 }

@@ -24,7 +24,7 @@ export class Server {
         }
     }
 
-    public registeringRoutes() {
+    public registeringControllers() {
         this.todoController = new TodoController();
     }
 
@@ -44,7 +44,7 @@ export class Server {
 
 export const server = new Server();
 server.initializeDatabase().then(() => {
-    server.registeringRoutes();
+    server.registeringControllers();
     server.initializingRoutes();
     server.start();
 })
