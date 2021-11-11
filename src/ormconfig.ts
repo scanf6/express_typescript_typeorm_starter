@@ -9,7 +9,7 @@ const config:ConnectionOptions = {
     database: "todo",
     entities: [__dirname + '/**/*.entity{.ts,.js}'],
     name: "todo_connection",
-    migrations: ['./migrations/**/*{.ts,.js}'],
+    migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
     cli: {
         migrationsDir: 'src/migrations',
     },
