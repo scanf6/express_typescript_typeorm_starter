@@ -9,24 +9,34 @@ export class TodoController {
         this.routes();
     }
 
-    public index = (req:Request, res:Response) => {
-        res.send(this.service.index());
+    public index = async (req:Request, res:Response) => {
+        const todos = await this.service.index();
+        res.json(todos);
     }
 
-    public show = (req:Request, res:Response) => {
-        res.send(this.service.show());
+    public show = async (req:Request, res:Response) => {
+        const {id} = req.params;
+        const todo = await this.service.show(Number(id))
+        res.json(todo);
     }
 
-    public create = (req:Request, res:Response) => {
-        res.send(this.service.create());
+    public create = async (req:Request, res:Response) => {
+        const payload = req.body;
+        const data = await this.service.create(payload);
+        return res.json(data);
     }
 
-    public update = (req:Request, res:Response) => {
-        res.send(this.service.update());
+    public update = async (req:Request, res:Response) => {
+        const payload = req.body;
+        const {id} = req.params;
+        const updated = await this.service.update(id, payload);
+        res.json(updated);
     }
 
-    public delete = (req:Request, res:Response) => {
-        res.send(this.service.delete());
+    public delete = async (req:Request, res:Response) => {
+        const {id} = req.params;
+        const deleted = await this.service.delete(id);
+        res.json(deleted);
     }
 
     public routes() {

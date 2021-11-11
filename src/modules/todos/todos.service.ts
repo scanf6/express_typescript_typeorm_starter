@@ -1,4 +1,5 @@
 import {getConnection} from 'typeorm';
+import { TodoEntity } from './todos.entity';
 import {TodoRepository} from './todos.repository';
 
 export class TodoService {
@@ -6,23 +7,28 @@ export class TodoService {
         private readonly todoRepository:TodoRepository = getConnection('todo_connection').getCustomRepository(TodoRepository)
     ) {}
 
-    public index = () => {
-        return 'List All Todos Service';
+    public index = async ():Promise<TodoEntity[]> => {
+        const todos = await this.todoRepository.find();
+        return todos;
     }
 
-    public show = () => {
-        return 'Show one Todo Service';
+    public show = async (id:number):Promise<TodoEntity> => {
+        const todo = await this.todoRepository.findOne(id);
+        return todo;
     }
 
-    public create = () => {
-        return 'Create a Todo Service';
+    public create = async (payload):Promise<TodoEntity> => {
+        const newTodo = await this.todoRepository.save(payload);
+        return newTodo;
     }
 
-    public update = () => {
-        return 'Update a Todo Service';
+    public update = async (id, payload):Promise<TodoEntity> => {
+        await this.todoRepository.update(id, payload);
+        return await this.todoRepository.findOne(id);
     }
 
-    public delete = () => {
-        return 'Delete a Todo Service';
+    public delete = async (id) => {
+        const deletedTodo = await this.todoRepository.delete(id);
+        return deletedTodo.affected;
     }
 }

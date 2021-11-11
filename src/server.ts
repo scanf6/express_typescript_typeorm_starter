@@ -14,6 +14,7 @@ export class Server {
 
     public configuration() {
         this.app.set('port', process.env.PORT || 5000)
+        this.app.use(express.json());
     }
 
     public async initializeDatabase() {
