@@ -27,7 +27,7 @@ export class TodoController {
             const data = await this.service.create(payload);
             return res.json(data);
         } catch(err) {
-            return next(new Error('Error when creating the Todo'));
+            return next(new Error(err.message));
         }
     }
 

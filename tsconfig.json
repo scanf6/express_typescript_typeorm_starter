@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "es6",
     "declaration": true,
     "incremental": true,
     "skipLibCheck": true,
     "module": "commonjs",
-    //"lib": ["dom", "es6", "es2017", "esnext.asynciterable"],
     "sourceMap": true,
     "outDir": "./dist",
     "moduleResolution": "node",

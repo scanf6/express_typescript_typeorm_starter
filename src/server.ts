@@ -1,7 +1,10 @@
 import express, {Request, Response, NextFunction} from 'express';
 import {createConnection} from 'typeorm';
+import morgan from 'morgan';
+import swaggerUi from "swagger-ui-express";
 import {TodoController} from './modules/todos/todos.controller';
 import config from './ormconfig';
+import path from 'path';
 
 export class Server {
     private todoController:TodoController;
@@ -15,6 +18,8 @@ export class Server {
     public configuration() {
         this.app.set('port', process.env.PORT || 5000)
         this.app.use(express.json());
+        this.app.use(morgan('dev'));
+        this.app.use(express.static(path.join(__dirname, '../public')));
     }
 
     public async initializeDatabase() {
@@ -30,9 +35,15 @@ export class Server {
     }
 
     public initializingRoutes() {
-        this.app.get('/', (_req:Request, res:Response) => {
-            res.send('Node Express Typescript TypeORM Starter');
-        });
+        this.app.use(
+            "/docs",
+            swaggerUi.serve,
+            swaggerUi.setup(undefined, {
+            swaggerOptions: {
+                url: "/swagger.json",
+            },
+            })
+        );
 
         this.app.use('/api/todos/', this.todoController.router)
 
