@@ -1,5 +1,7 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import {TodoService} from './todos.service';
+import {TodoCreateDto} from './dto/todoCreate.dto';
+import dtoValidation from '../../common/middlewares/dtoValidation';
 
 export class TodoController {
     constructor(
@@ -47,7 +49,7 @@ export class TodoController {
     public routes() {
         this.router.get('/', this.index);
         this.router.get('/:id', this.show);
-        this.router.post('/', this.create);
+        this.router.post('/', dtoValidation(TodoCreateDto), this.create);
         this.router.put('/:id', this.update);
         this.router.delete('/:id', this.delete);
     }
