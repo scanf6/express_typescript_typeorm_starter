@@ -1,4 +1,4 @@
-import {Router, Request, Response} from 'express';
+import {Router, Request, Response, NextFunction} from 'express';
 import {TodoService} from './todos.service';
 
 export class TodoController {
@@ -20,15 +20,14 @@ export class TodoController {
         res.json(todo);
     }
 
-    public create = async (req:Request, res:Response) => {
+    public create = async (req:Request, res:Response, next: NextFunction) => {
         const payload = req.body;
 
         try {
             const data = await this.service.create(payload);
             return res.json(data);
         } catch(err) {
-            console.log('#####');
-            throw new Error('Error when creating the Todo')
+            return next(new Error('Error when creating the Todo'));
         }
     }
 
